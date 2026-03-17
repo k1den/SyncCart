@@ -18,14 +18,12 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
 
-        // Обработчик нажатий на нижнее меню
         bottomNav.setOnItemSelectedListener(item -> {
             Fragment selectedFragment = null;
 
             if (item.getItemId() == R.id.nav_chats) {
                 selectedFragment = new ChatsFragment();
             } else if (item.getItemId() == R.id.nav_lists) {
-                // ВОТ ЗДЕСЬ ИСПРАВЛЕНИЕ: Открываем фрагмент со всеми одиночными списками!
                 selectedFragment = new ListsFragment();
             }
 
@@ -37,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
             return true;
         });
 
-        // При запуске сразу открываем вкладку Чаты
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, new ChatsFragment())

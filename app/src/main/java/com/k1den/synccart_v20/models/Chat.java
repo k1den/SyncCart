@@ -5,7 +5,7 @@ import java.util.List;
 public class Chat {
     private int id;
     private String title;
-    private List<User> members; // Список участников чата
+    private List<User> members;
 
     public Chat() {
     }

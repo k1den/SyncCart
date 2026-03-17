@@ -7,6 +7,17 @@ public class Message {
     private String content;
     private String messageType;
 
+    private String senderName;
+    private String senderColor;
+
+    public String getSenderName() {
+        return senderName;
+    }
+
+    public String getSenderColor() {
+        return senderColor;
+    }
+
     public int getId() {
         return id;
     }

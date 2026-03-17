@@ -64,7 +64,6 @@ public class InvitationsActivity extends AppCompatActivity {
         });
     }
 
-    // Внутренний класс Адаптера
     private class InviteAdapter extends RecyclerView.Adapter<InviteAdapter.InviteViewHolder> {
         private List<ChatInvitation> invites = new ArrayList<>();
 
@@ -91,7 +90,7 @@ public class InvitationsActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<okhttp3.ResponseBody> call, Response<okhttp3.ResponseBody> response) {
                         Toast.makeText(InvitationsActivity.this, "Добро пожаловать в чат!", Toast.LENGTH_SHORT).show();
-                        loadInvitations(); // Обновляем список
+                        loadInvitations();
                     }
 
                     @Override
@@ -100,12 +99,11 @@ public class InvitationsActivity extends AppCompatActivity {
                 });
             });
 
-            // Кнопка ОТКЛОНИТЬ
             holder.btnDecline.setOnClickListener(v -> {
                 RetrofitClient.getApiService().declineInvite(invite.getId()).enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
-                        loadInvitations(); // Обновляем список
+                        loadInvitations();
                     }
 
                     @Override

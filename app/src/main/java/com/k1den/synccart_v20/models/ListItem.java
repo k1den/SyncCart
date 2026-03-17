@@ -4,7 +4,7 @@ public class ListItem {
     private int id;
     private int listId;
     private String name;
-    private String category; // <-- ДОБАВИЛИ
+    private String category;
     private boolean isBought;
 
     private String assigneeName;
@@ -13,7 +13,6 @@ public class ListItem {
         return assigneeName;
     }
 
-    // ДОБАВЬ ГЕТТЕР:
     public String getCategory() {
         return category;
     }

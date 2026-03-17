@@ -32,14 +32,11 @@ public class ListsFragment extends Fragment {
 
     private RecyclerView rvLists;
     private FloatingActionButton fabAddList;
-    // Мы временно переиспользуем ChatAdapter, так как визуально списки выглядят так же (название на плашке).
-    // Позже можно будет сделать отдельный ListAdapter.
     private ChatAdapter listAdapter;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        // Используем ту же разметку, что и для чатов (список + кнопка FAB)
         View view = inflater.inflate(R.layout.fragment_chats, container, false);
 
         android.widget.TextView tvTitle = view.findViewById(R.id.tvChatsTitle);
@@ -52,10 +49,8 @@ public class ListsFragment extends Fragment {
         listAdapter = new ChatAdapter();
         rvLists.setAdapter(listAdapter);
 
-        // При клике на одиночный список - открываем ShoppingListActivity
         listAdapter.setOnChatClickListener(chat -> {
             Intent intent = new Intent(getContext(), ShoppingListActivity.class);
-            // Используем ID "чата" как ID списка, так как переиспользовали адаптер
             intent.putExtra("LIST_ID", chat.getId());
             startActivity(intent);
         });
@@ -65,7 +60,6 @@ public class ListsFragment extends Fragment {
                     .setTitle("Удалить список?")
                     .setMessage("Этот список будет удален навсегда.")
                     .setPositiveButton("Удалить", (dialog, which) -> {
-                        // Помнишь, мы переиспользуем ChatAdapter для списков? Поэтому берем chat.getId()
                         RetrofitClient.getApiService().deleteList(chat.getId()).enqueue(new Callback<Void>() {
                             @Override
                             public void onResponse(Call<Void> call, Response<Void> response) {
@@ -81,7 +75,6 @@ public class ListsFragment extends Fragment {
                     .show();
         });
 
-        // Кнопка создания одиночного списка
         fabAddList.setOnClickListener(v -> createStandaloneList());
 
         loadStandaloneLists();
@@ -99,7 +92,6 @@ public class ListsFragment extends Fragment {
             @Override
             public void onResponse(Call<List<ShoppingList>> call, Response<List<ShoppingList>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    // Преобразуем ShoppingList в объекты Chat для нашего адаптера (временный хак для экономии времени)
                     List<com.k1den.synccart_v20.models.Chat> mockChats = new java.util.ArrayList<>();
                     for (ShoppingList sl : response.body()) {
                         com.k1den.synccart_v20.models.Chat c = new com.k1den.synccart_v20.models.Chat();
@@ -127,7 +119,7 @@ public class ListsFragment extends Fragment {
             public void onResponse(Call<ShoppingList> call, Response<ShoppingList> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(getContext(), "Личный список создан!", Toast.LENGTH_SHORT).show();
-                    loadStandaloneLists(); // Обновляем
+                    loadStandaloneLists();
                 }
             }
 

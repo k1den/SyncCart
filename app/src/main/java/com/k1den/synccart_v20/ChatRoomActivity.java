@@ -32,12 +32,10 @@ public class ChatRoomActivity extends AppCompatActivity {
     private EditText etMessage;
     private androidx.activity.result.ActivityResultLauncher<android.content.Intent> voiceRecognitionLauncher;
 
-    // --- ПЕРЕМЕННЫЕ ДЛЯ ИИ ---
     private View bottomInputContainer;
     private ImageButton btnAiAssist;
     private TextView tvRoomTitle;
-    private String originalChatTitle; // Чтобы вернуть название чата после ИИ
-    // -------------------------
+    private String originalChatTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,51 +54,43 @@ public class ChatRoomActivity extends AppCompatActivity {
         etMessage = findViewById(R.id.etMessage);
         ImageButton btnSend = findViewById(R.id.btnSend);
 
-        // Находим контейнер ввода и кнопку ИИ
         bottomInputContainer = findViewById(R.id.bottomInputContainer);
         btnAiAssist = findViewById(R.id.btnAiAssist);
 
-        // Вешаем клик на ИИ
         if (btnAiAssist != null) {
             btnAiAssist.setOnClickListener(v -> enterAiSelectionMode());
         }
 
-        // Настраиваем прием текста из микрофона
         voiceRecognitionLauncher = registerForActivityResult(
                 new androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     if (result.getResultCode() == RESULT_OK && result.getData() != null) {
                         java.util.ArrayList<String> matches = result.getData().getStringArrayListExtra(android.speech.RecognizerIntent.EXTRA_RESULTS);
                         if (matches != null && !matches.isEmpty()) {
-                            String spokenText = matches.get(0); // Берем лучший вариант распознавания
+                            String spokenText = matches.get(0);
 
-                            // Добавляем сказанное в поле ввода
                             String currentText = etMessage.getText().toString();
                             if (currentText.isEmpty()) {
                                 etMessage.setText(spokenText);
                             } else {
                                 etMessage.setText(currentText + " " + spokenText);
                             }
-                            // Ставим курсор в самый конец текста
                             etMessage.setSelection(etMessage.getText().length());
                         }
                     }
                 }
         );
 
-        // Настраиваем список сообщений
         rvMessages = findViewById(R.id.rvMessages);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setStackFromEnd(true); // Сообщения начинаются снизу
+        layoutManager.setStackFromEnd(true);
         rvMessages.setLayoutManager(layoutManager);
 
-        messageAdapter = new MessageAdapter();
+        messageAdapter = new MessageAdapter(currentUserId);
         rvMessages.setAdapter(messageAdapter);
 
-        // Загружаем старые сообщения
         loadMessages();
 
-        // Отправка нового сообщения
         btnSend.setOnClickListener(v -> {
             String text = etMessage.getText().toString().trim();
             if (!text.isEmpty()) {
@@ -110,7 +100,7 @@ public class ChatRoomActivity extends AppCompatActivity {
 
         ImageButton btnOpenList = findViewById(R.id.btnOpenList);
         btnOpenList.setOnClickListener(v -> openOrCreateShoppingList());
-        findViewById(R.id.btnBack).setOnClickListener(v -> finish()); // Закрывает текущий экран и возвращает назад
+        findViewById(R.id.btnBack).setOnClickListener(v -> finish());
 
         ImageButton btnAddUser = findViewById(R.id.btnAddUser);
         btnAddUser.setOnClickListener(v -> showInviteDialog());
@@ -125,7 +115,6 @@ public class ChatRoomActivity extends AppCompatActivity {
             public void onResponse(Call<List<Message>> call, Response<List<Message>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     messageAdapter.setMessages(response.body());
-                    // Прокручиваем вниз
                     if (messageAdapter.getItemCount() > 0) {
                         rvMessages.scrollToPosition(messageAdapter.getItemCount() - 1);
                     }
@@ -144,9 +133,9 @@ public class ChatRoomActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Message> call, Response<Message> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    etMessage.setText(""); // Очищаем поле
-                    messageAdapter.addMessage(response.body()); // Добавляем на экран
-                    rvMessages.smoothScrollToPosition(messageAdapter.getItemCount() - 1); // Скроллим вниз
+                    etMessage.setText("");
+                    messageAdapter.addMessage(response.body());
+                    rvMessages.smoothScrollToPosition(messageAdapter.getItemCount() - 1);
                 }
             }
 
@@ -252,10 +241,6 @@ public class ChatRoomActivity extends AppCompatActivity {
         }
     }
 
-    // ==========================================
-    // --- МНОГОУВАЖАЕМЫЙ ИИ: ЛОГИКА РАБОТЫ ---
-    // ==========================================
-
     private void enterAiSelectionMode() {
         tvRoomTitle.setText("Выберите сообщение");
 
@@ -276,7 +261,7 @@ public class ChatRoomActivity extends AppCompatActivity {
                     .show();
         });
 
-        messageAdapter.notifyDataSetChanged(); // Обновляем список, чтобы подсветить сообщения
+        messageAdapter.notifyDataSetChanged();
     }
 
     private void exitAiSelectionMode() {
@@ -285,7 +270,7 @@ public class ChatRoomActivity extends AppCompatActivity {
         if (bottomInputContainer != null) bottomInputContainer.setVisibility(View.VISIBLE);
         if (btnAiAssist != null) btnAiAssist.setVisibility(View.VISIBLE);
 
-        messageAdapter.setOnMessageAiClickListener(null); // Выключаем клики по сообщениям
+        messageAdapter.setOnMessageAiClickListener(null);
         messageAdapter.notifyDataSetChanged();
     }
 

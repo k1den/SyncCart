@@ -17,14 +17,12 @@ import java.util.List;
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder> {
 
     private List<Chat> chatList = new ArrayList<>();
-    private OnChatClickListener listener; // Наш слушатель
+    private OnChatClickListener listener;
 
-    // Интерфейс для обработки кликов
     public interface OnChatClickListener {
         void onChatClick(Chat chat);
     }
 
-    // Метод для установки слушателя извне
     public void setOnChatClickListener(OnChatClickListener listener) {
         this.listener = listener;
     }
@@ -56,7 +54,6 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         Chat chat = chatList.get(position);
         holder.tvChatName.setText(chat.getTitle());
 
-        // ВЕШАЕМ КЛИК НА ВСЮ ПЛАШКУ ЧАТА
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) {
                 listener.onChatClick(chat);
@@ -66,7 +63,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         holder.itemView.setOnLongClickListener(v -> {
             if (longClickListener != null) {
                 longClickListener.onChatLongClick(chat);
-                return true; // Говорим Android, что мы обработали долгое нажатие
+                return true;
             }
             return false;
         });

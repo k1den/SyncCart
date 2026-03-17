@@ -34,7 +34,7 @@ public class ChatsFragment extends Fragment {
 
     private RecyclerView rvChats;
     private FloatingActionButton fabAddChat;
-    private ChatAdapter chatAdapter; // Наш новый адаптер
+    private ChatAdapter chatAdapter;
 
     @Nullable
     @Override
@@ -44,14 +44,10 @@ public class ChatsFragment extends Fragment {
         rvChats = view.findViewById(R.id.rvChats);
         fabAddChat = view.findViewById(R.id.fabAddChat);
 
-        // --- НАСТРОЙКА СПИСКА ---
-        // Говорим списку располагать элементы вертикально
-        // --- НАСТРОЙКА СПИСКА ---
         rvChats.setLayoutManager(new LinearLayoutManager(getContext()));
         chatAdapter = new ChatAdapter();
         rvChats.setAdapter(chatAdapter);
 
-        // ДОБАВЛЯЕМ ЭТОТ БЛОК: Что делать при клике на чат
         chatAdapter.setOnChatClickListener(chat -> {
             android.content.Intent intent = new android.content.Intent(getContext(), ChatRoomActivity.class);
             intent.putExtra("CHAT_ID", chat.getId());
@@ -78,11 +74,9 @@ public class ChatsFragment extends Fragment {
                     .setNegativeButton("Отмена", null)
                     .show();
         });
-        // ------------------------
 
         fabAddChat.setOnClickListener(v -> showAddChatDialog());
 
-        // При открытии экрана сразу загружаем чаты с сервера
         loadChatsFromServer();
 
         view.findViewById(R.id.btnInvites).setOnClickListener(v -> {
@@ -92,7 +86,6 @@ public class ChatsFragment extends Fragment {
         return view;
     }
 
-    // Метод загрузки чатов
     private void loadChatsFromServer() {
         SharedPreferences prefs = requireActivity().getSharedPreferences("AppPrefs", Context.MODE_PRIVATE);
         int currentUserId = prefs.getInt("USER_ID", -1);
@@ -106,7 +99,6 @@ public class ChatsFragment extends Fragment {
                             List<Chat> chats = response.body();
                             chatAdapter.setChats(chats);
 
-                            // --- МАГИЯ ПУСТОГО ЭКРАНА ЗДЕСЬ ---
                             View emptyState = getView().findViewById(R.id.emptyStateLayout);
                             View rvChats = getView().findViewById(R.id.rvChats);
 

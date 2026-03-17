@@ -11,37 +11,48 @@
         android:layout_height="wrap_content"
         android:background="@color/brand_green"
         android:elevation="4dp"
-        android:padding="16dp"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:gravity="center_vertical">
+        android:padding="16dp">
 
         <ImageButton
             android:id="@+id/btnBack"
             android:layout_width="32dp"
             android:layout_height="32dp"
+            android:layout_marginEnd="12dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@android:drawable/ic_menu_revert"
-            app:tint="@color/white"
-            android:layout_marginEnd="12dp" />
+            app:tint="@color/white" />
 
         <TextView
             android:id="@+id/tvListTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Список покупок"
+            android:textColor="@color/white"
             android:textSize="22sp"
-            android:textStyle="bold"
-            android:textColor="@color/white"/>
+            android:textStyle="bold" />
+
+        <!-- Внутри LinearLayout с id="@+id/headerList", после TextView tvListTitle -->
+        <ImageButton
+            android:id="@+id/btnMap"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="12dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Карта магазинов"
+            android:src="@android:drawable/ic_dialog_map"
+            app:tint="@color/white" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvProducts"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/headerList"
         android:layout_above="@id/bottomAddProductLayout"
-        android:padding="8dp"
-        android:clipToPadding="false"/>
+        android:layout_below="@id/headerList"
+        android:clipToPadding="false"
+        android:padding="8dp" />
 
     <LinearLayout
         android:id="@+id/bottomAddProductLayout"
@@ -49,19 +60,19 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@color/brand_green"
-        android:padding="12dp"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:padding="12dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_input_pill"
+            android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingStart="16dp"
-            android:paddingEnd="8dp"
             android:paddingTop="4dp"
-            android:paddingBottom="4dp"
-            android:gravity="center_vertical">
+            android:paddingEnd="8dp"
+            android:paddingBottom="4dp">
 
             <AutoCompleteTextView
                 android:id="@+id/etProductName"
@@ -69,14 +80,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
+                android:completionThreshold="1"
                 android:hint="Добавить продукт..."
-                android:textColorHint="@color/text_hint"
-                android:textColor="@color/black"
-                android:textSize="16sp"
+                android:inputType="textCapSentences"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
-                android:completionThreshold="1"
-                android:inputType="textCapSentences"/>
+                android:textColor="@color/black"
+                android:textColorHint="@color/text_hint"
+                android:textSize="16sp" />
 
             <ImageButton
                 android:id="@+id/btnMic"

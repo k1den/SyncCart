@@ -3,58 +3,79 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_light"
-    android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:padding="32dp">
+    android:background="@color/bg_light"
+    android:padding="32dp"
+    android:gravity="center_horizontal">
 
     <ImageView
         android:id="@+id/ivAuthLogo"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_marginTop="48dp"
-        android:layout_marginBottom="48dp"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
         android:src="@android:drawable/ic_menu_gallery"
-        app:tint="@color/brand_green" />
+        app:tint="@color/brand_green"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="32dp"/>
 
     <TextView
         android:id="@+id/tvAuthTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
         android:text="Регистрация"
-        android:textColor="@color/black"
         android:textSize="26sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:layout_marginBottom="32dp"/>
 
     <EditText
         android:id="@+id/etEmail"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/bg_input_rounded"
         android:hint="Почта"
         android:inputType="textEmailAddress"
-        android:paddingStart="20dp" />
+        android:paddingStart="20dp"
+        android:background="@drawable/bg_input_rounded"
+        android:layout_marginBottom="16dp"/>
 
     <EditText
         android:id="@+id/etUsername"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:layout_marginBottom="32dp"
-        android:background="@drawable/bg_input_rounded"
         android:hint="Никнейм"
         android:inputType="textCapSentences"
-        android:paddingStart="20dp" />
+        android:paddingStart="20dp"
+        android:background="@drawable/bg_input_rounded"
+        android:layout_marginBottom="24dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Выберите цвет для чата:"
+        android:textSize="14sp"
+        android:textColor="@color/text_hint"
+        android:layout_marginBottom="8dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginBottom="32dp">
+
+        <View android:id="@+id/colorRed" android:layout_width="45dp" android:layout_height="45dp" android:background="#EF5350" android:layout_margin="8dp"/>
+        <View android:id="@+id/colorBlue" android:layout_width="45dp" android:layout_height="45dp" android:background="#42A5F5" android:layout_margin="8dp"/>
+        <View android:id="@+id/colorPurple" android:layout_width="45dp" android:layout_height="45dp" android:background="#AB47BC" android:layout_margin="8dp"/>
+        <View android:id="@+id/colorOrange" android:layout_width="45dp" android:layout_height="45dp" android:background="#FFA726" android:layout_margin="8dp"/>
+    </LinearLayout>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnVerifyEmail"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:background="@drawable/bg_button_rounded"
         android:text="Продолжить"
-        android:textAllCaps="false"
+        android:textSize="18sp"
+        android:background="@drawable/bg_button_rounded"
         android:textColor="@color/white"
-        android:textSize="18sp" />
+        android:textAllCaps="false"/>
 
 </LinearLayout>

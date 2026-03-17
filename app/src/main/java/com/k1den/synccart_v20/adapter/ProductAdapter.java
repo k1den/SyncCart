@@ -34,7 +34,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         void onDelete(ListItem item, int position);
     }
 
-    // В начало класса добавь:
     public interface OnAssignClickListener {
         void onAssignClick(ListItem item, int position);
     }
@@ -51,7 +50,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         this.deleteListener = listener;
     }
 
-    // --- МАГИЯ СОРТИРОВКИ ЗДЕСЬ ---
     private void sortItemsByCategory() {
         Collections.sort(this.items, (a, b) -> {
             String catA = a.getCategory() != null ? a.getCategory() : "Разное";
@@ -62,16 +60,15 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     public void setItems(List<ListItem> items) {
         this.items = items;
-        sortItemsByCategory(); // Сортируем при загрузке
+        sortItemsByCategory();
         notifyDataSetChanged();
     }
 
     public void addItem(ListItem item) {
         this.items.add(item);
-        sortItemsByCategory(); // Сортируем при добавлении
+        sortItemsByCategory();
         notifyDataSetChanged();
     }
-    // -----------------------------
 
     @NonNull
     @Override
@@ -84,16 +81,15 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
         ListItem item = items.get(position);
 
-        // 1. ЛОГИКА ОТОБРАЖЕНИЯ ЗАГОЛОВКА КАТЕГОРИИ
         String currentCat = item.getCategory() != null ? item.getCategory() : "Разное";
         boolean showHeader = false;
 
         if (position == 0) {
-            showHeader = true; // Для первого элемента всегда показываем
+            showHeader = true;
         } else {
             String prevCat = items.get(position - 1).getCategory() != null ? items.get(position - 1).getCategory() : "Разное";
             if (!currentCat.equals(prevCat)) {
-                showHeader = true; // Показываем, если категория изменилась
+                showHeader = true;
             }
         }
 
@@ -104,7 +100,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             holder.tvCategoryHeader.setVisibility(View.GONE);
         }
 
-        // 2. ЛОГИКА ПРОДУКТА
         holder.cbIsBought.setOnCheckedChangeListener(null);
         holder.tvProductName.setText(item.getName());
         holder.cbIsBought.setChecked(item.isBought());
@@ -127,7 +122,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             }
         });
 
-        // Отображение ответственного
         if (item.getAssigneeName() != null && !item.getAssigneeName().isEmpty()) {
             holder.tvAssignedUser.setText("Купит: " + item.getAssigneeName());
             holder.tvAssignedUser.setTextColor(0xFF6A9A6E); // Зеленый цвет
@@ -136,7 +130,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             holder.tvAssignedUser.setTextColor(0xFF888888); // Серый цвет
         }
 
-        // Клик по тексту "Всем" / "Купит: Имя"
         holder.tvAssignedUser.setOnClickListener(v -> {
             if (assignListener != null) assignListener.onAssignClick(item, position);
         });
@@ -148,7 +141,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     }
 
     static class ProductViewHolder extends RecyclerView.ViewHolder {
-        TextView tvCategoryHeader; // <-- ДОБАВИЛИ ЗАГОЛОВОК
+        TextView tvCategoryHeader;
         CheckBox cbIsBought;
         TextView tvProductName, tvAssignedUser;
 

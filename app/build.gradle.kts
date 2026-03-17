@@ -49,4 +49,8 @@ dependencies {
     implementation("com.google.android.material:material:1.11.0")
     // Для WebSockets (позже для чата)
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation("org.osmdroid:osmdroid-android:6.1.16")
+    implementation("org.osmdroid:osmdroid-geopackage:6.1.16") {
+        exclude(group = "com.j256.ormlite", module = "ormlite-core")
+    }
 }

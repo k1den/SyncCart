@@ -1,9 +1,12 @@
 package com.k1den.synccart_v20.adapter;
 
+import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,8 +21,8 @@ import java.util.List;
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageViewHolder> {
 
     private List<Message> messages = new ArrayList<>();
+    private int currentUserId;
 
-    // --- ДЛЯ ИИ: Добавляем слушатель кликов ---
     public interface OnMessageAiClickListener {
         void onMessageClick(Message message, int position);
     }
@@ -29,7 +32,10 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     public void setOnMessageAiClickListener(OnMessageAiClickListener listener) {
         this.aiListener = listener;
     }
-    // ----------------------------------------
+
+    public MessageAdapter(int currentUserId) {
+        this.currentUserId = currentUserId;
+    }
 
     public void setMessages(List<Message> messages) {
         this.messages = messages;
@@ -52,23 +58,42 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     public void onBindViewHolder(@NonNull MessageViewHolder holder, int position) {
         Message msg = messages.get(position);
         holder.tvContent.setText(msg.getContent());
-        holder.tvAuthor.setText("UserID: " + msg.getUserId());
 
-        // --- ДЛЯ ИИ: Логика клика по сообщению ---
-        holder.itemView.setOnClickListener(v -> {
-            if (aiListener != null) {
-                // Если слушатель установлен (т.е. мы в режиме выбора), отправляем событие в Активити
-                aiListener.onMessageClick(msg, position);
+        LinearLayout mainContainer = holder.itemView.findViewById(R.id.msgMainContainer);
+        LinearLayout bubble = holder.itemView.findViewById(R.id.msgBubble);
+
+        if (msg.getUserId() == currentUserId) {
+            mainContainer.setGravity(Gravity.END);
+            bubble.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#DCF8C6")));
+            holder.tvAuthor.setVisibility(View.GONE);
+        } else {
+            mainContainer.setGravity(Gravity.START);
+            bubble.setBackgroundTintList(ColorStateList.valueOf(Color.WHITE));
+            holder.tvAuthor.setVisibility(View.VISIBLE);
+
+            String name = msg.getSenderName() != null ? msg.getSenderName() : "Пользователь";
+            holder.tvAuthor.setText(name);
+
+            if (msg.getSenderColor() != null && !msg.getSenderColor().isEmpty()) {
+                try {
+                    holder.tvAuthor.setTextColor(Color.parseColor(msg.getSenderColor()));
+                } catch (Exception e) {
+                    holder.tvAuthor.setTextColor(Color.GRAY);
+                }
+            } else {
+                holder.tvAuthor.setTextColor(Color.GRAY);
             }
+        }
+
+        holder.itemView.setOnClickListener(v -> {
+            if (aiListener != null) aiListener.onMessageClick(msg, position);
         });
 
-        // Меняем фон сообщения, чтобы показать, что оно кликабельно (по желанию)
         if (aiListener != null) {
-            holder.itemView.setBackgroundColor(0xFFE0E0E0); // Серый цвет выбора
+            bubble.setAlpha(0.6f);
         } else {
-            holder.itemView.setBackgroundColor(Color.TRANSPARENT);
+            bubble.setAlpha(1.0f);
         }
-        // -----------------------------------------
     }
 
     @Override
@@ -82,7 +107,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         public MessageViewHolder(@NonNull View itemView) {
             super(itemView);
             tvContent = itemView.findViewById(R.id.tvMessageContent);
-            tvAuthor = itemView.findViewById(R.id.tvAuthorId);
+            tvAuthor = itemView.findViewById(R.id.tvAuthorName);
         }
     }
 }

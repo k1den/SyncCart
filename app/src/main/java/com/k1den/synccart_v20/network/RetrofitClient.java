@@ -1,4 +1,4 @@
-package com.k1den.synccart_v20.network; // Оставь свой пакет
+package com.k1den.synccart_v20.network;
 
 import java.util.concurrent.TimeUnit;
 
@@ -13,17 +13,15 @@ public class RetrofitClient {
     public static Retrofit getRetrofitInstance() {
         if (retrofit == null) {
 
-            // 1. Создаем кастомный клиент и увеличиваем время ожидания до 60 секунд
             OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                    .connectTimeout(60, TimeUnit.SECONDS) // Время на подключение
-                    .readTimeout(60, TimeUnit.SECONDS)    // Время ожидания ответа
-                    .writeTimeout(60, TimeUnit.SECONDS)   // Время на отправку данных
+                    .connectTimeout(60, TimeUnit.SECONDS)
+                    .readTimeout(60, TimeUnit.SECONDS)
+                    .writeTimeout(60, TimeUnit.SECONDS)
                     .build();
 
-            // 2. Добавляем этот клиент в наш Retrofit
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
-                    .client(okHttpClient) // <-- Подключили наши настройки тайм-аута
+                    .client(okHttpClient)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }

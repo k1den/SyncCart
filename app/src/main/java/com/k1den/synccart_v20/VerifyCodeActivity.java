@@ -20,20 +20,20 @@ import retrofit2.Response;
 public class VerifyCodeActivity extends AppCompatActivity {
 
     private EditText etCode;
-    private Button btnVerifyCode; // Новое имя кнопки
+    private Button btnVerifyCode;
     private String userEmail;
     private String userUsername;
+    private String userColor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_verify_code);
 
-        // Получаем данные с прошлого экрана
         userEmail = getIntent().getStringExtra("EMAIL");
         userUsername = getIntent().getStringExtra("USERNAME");
+        userColor = getIntent().getStringExtra("COLOR");
 
-        // ИЗМЕНЕНИЕ 1: Обновленный ID текста и оживление кнопки Назад
         TextView tvCodeSubtitle = findViewById(R.id.tvCodeSubtitle);
         if (tvCodeSubtitle != null) {
             tvCodeSubtitle.setText("Код отправлен на:\n" + userEmail);
@@ -42,8 +42,6 @@ public class VerifyCodeActivity extends AppCompatActivity {
         findViewById(R.id.btnBack).setOnClickListener(v -> finish());
 
         etCode = findViewById(R.id.etCode);
-
-        // ИЗМЕНЕНИЕ 2: Новый ID кнопки
         btnVerifyCode = findViewById(R.id.btnVerifyCode);
 
         btnVerifyCode.setOnClickListener(v -> {
@@ -60,38 +58,39 @@ public class VerifyCodeActivity extends AppCompatActivity {
         btnVerifyCode.setEnabled(false);
         btnVerifyCode.setText("Проверка...");
 
-        RetrofitClient.getApiService().verifyCode(userEmail, userUsername, code).enqueue(new Callback<User>() {
-            @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                btnVerifyCode.setEnabled(true);
-                btnVerifyCode.setText("Подтвердить");
+        RetrofitClient.getApiService().verifyCode(userEmail, userUsername, code, userColor)
+                .enqueue(new Callback<User>() {
+                    @Override
+                    public void onResponse(Call<User> call, Response<User> response) {
+                        btnVerifyCode.setEnabled(true);
+                        btnVerifyCode.setText("Подтвердить");
 
-                if (response.isSuccessful() && response.body() != null) {
-                    User registeredUser = response.body();
-                    Toast.makeText(VerifyCodeActivity.this, "Привет, " + registeredUser.getUsername() + "!", Toast.LENGTH_LONG).show();
+                        if (response.isSuccessful() && response.body() != null) {
+                            User registeredUser = response.body();
+                            Toast.makeText(VerifyCodeActivity.this, "Привет, " + registeredUser.getUsername() + "!", Toast.LENGTH_LONG).show();
 
-                    android.content.SharedPreferences prefs = getSharedPreferences("AppPrefs", MODE_PRIVATE);
-                    prefs.edit()
-                            .putInt("USER_ID", registeredUser.getId())
-                            .putString("USERNAME", registeredUser.getUsername())
-                            .apply();
+                            android.content.SharedPreferences prefs = getSharedPreferences("AppPrefs", MODE_PRIVATE);
+                            prefs.edit()
+                                    .putInt("USER_ID", registeredUser.getId())
+                                    .putString("USERNAME", registeredUser.getUsername())
+                                    .apply();
 
-                    Intent intent = new Intent(VerifyCodeActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
+                            Intent intent = new Intent(VerifyCodeActivity.this, MainActivity.class);
+                            startActivity(intent);
+                            finish();
 
-                } else {
-                    Toast.makeText(VerifyCodeActivity.this, "Неверный код", Toast.LENGTH_SHORT).show();
-                }
-            }
+                        } else {
+                            Toast.makeText(VerifyCodeActivity.this, "Неверный код", Toast.LENGTH_SHORT).show();
+                        }
+                    }
 
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                btnVerifyCode.setEnabled(true);
-                btnVerifyCode.setText("Подтвердить");
-                Toast.makeText(VerifyCodeActivity.this, "Ошибка сети", Toast.LENGTH_SHORT).show();
-                Log.e("API_ERROR", t.getMessage());
-            }
-        });
+                    @Override
+                    public void onFailure(Call<User> call, Throwable t) {
+                        btnVerifyCode.setEnabled(true);
+                        btnVerifyCode.setText("Подтвердить");
+                        Toast.makeText(VerifyCodeActivity.this, "Ошибка сети", Toast.LENGTH_SHORT).show();
+                        Log.e("API_ERROR", t != null ? t.getMessage() : "Unknown error");
+                    }
+                });
     }
 }

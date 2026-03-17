@@ -7,7 +7,6 @@ public class User {
     private String avatarColor;
     private String city;
 
-    // Пустой конструктор (нужен для Gson)
     public User() {
     }
 

@@ -14,7 +14,6 @@ import retrofit2.http.Query;
 
 public interface ApiService {
 
-    // Запрос на отправку кода верификации
     @FormUrlEncoded
     @POST("api/auth/request-code")
     Call<Void> requestVerificationCode(
@@ -22,7 +21,6 @@ public interface ApiService {
             @Field("username") String username
     );
 
-    // Метод для проверки введенного кода
     @FormUrlEncoded
     @POST("api/auth/verify")
     Call<User> verifyCode(
@@ -34,11 +32,11 @@ public interface ApiService {
     @POST("api/auth/verify")
     Call<User> verifyCode(
             @Field("email") String email,
-            @Field("username") String username, // <-- ВОТ ЭТА СТРОЧКА ОБЯЗАТЕЛЬНА
-            @Field("code") String code
+            @Field("username") String username,
+            @Field("code") String code,
+            @Field("avatar_color") String userColor
     );
 
-    // Метод для создания чата
     @FormUrlEncoded
     @POST("api/chats/create")
     Call<com.k1den.synccart_v20.models.Chat> createChat(
@@ -46,13 +44,11 @@ public interface ApiService {
             @Field("userId") int userId
     );
 
-    // Метод для получения списка чатов
     @GET("api/chats/my")
     Call<java.util.List<com.k1den.synccart_v20.models.Chat>> getMyChats(
             @Query("userId") int userId
     );
 
-    // Отправка сообщения
     @FormUrlEncoded
     @POST("api/messages/send")
     Call<com.k1den.synccart_v20.models.Message> sendMessage(
@@ -61,28 +57,17 @@ public interface ApiService {
             @Field("content") String content
     );
 
-    // Получение истории чата
     @GET("api/messages/{chatId}")
     Call<java.util.List<com.k1den.synccart_v20.models.Message>> getMessages(
             @Path("chatId") int chatId
     );
 
-    // --- СПИСКИ ПОКУПОК ---
 
     @POST("api/lists/create")
     Call<com.k1den.synccart_v20.models.ShoppingList> createList(@Query("chatId") int chatId);
 
     @GET("api/lists/chat/{chatId}")
     Call<java.util.List<com.k1den.synccart_v20.models.ShoppingList>> getListsByChat(@Path("chatId") int chatId);
-
-    // --- ПРОДУКТЫ В СПИСКЕ ---
-
-    @FormUrlEncoded
-    @POST("api/lists/items/add")
-    Call<com.k1den.synccart_v20.models.ListItem> addItem(
-            @Field("listId") int listId,
-            @Field("name") String name
-    );
 
     @GET("api/lists/{listId}/items")
     Call<java.util.List<com.k1den.synccart_v20.models.ListItem>> getItems(@Path("listId") int listId);
@@ -95,18 +80,15 @@ public interface ApiService {
     Call<com.k1den.synccart_v20.models.ListItem> addItem(
             @Field("listId") int listId,
             @Field("name") String name,
-            @Field("category") String category // <-- ДОБАВИЛИ
+            @Field("category") String category
     );
 
-    // Создание одиночного списка (без привязки к чату)
     @POST("api/lists/create/standalone")
     Call<com.k1den.synccart_v20.models.ShoppingList> createStandaloneList(@Query("userId") int userId);
 
-    // Получение всех одиночных списков пользователя
     @GET("api/lists/standalone/{userId}")
     Call<java.util.List<com.k1den.synccart_v20.models.ShoppingList>> getStandaloneLists(@Path("userId") int userId);
 
-    // Отправка приглашения
     @POST("api/chats/{chatId}/invite")
     Call<okhttp3.ResponseBody> inviteUser(
             @Path("chatId") int chatId,
@@ -117,7 +99,6 @@ public interface ApiService {
     @DELETE("api/lists/items/{itemId}/delete")
     Call<Void> deleteItem(@Path("itemId") int itemId);
 
-    // --- ПРИГЛАШЕНИЯ ---
     @GET("api/chats/invitations/{userId}")
     Call<java.util.List<com.k1den.synccart_v20.models.ChatInvitation>> getInvites(@Path("userId") int userId);
 
@@ -139,7 +120,6 @@ public interface ApiService {
     @DELETE("api/lists/{listId}")
     Call<Void> deleteList(@Path("listId") int listId);
 
-    // Отправка сообщения ИИ для умного добавления товаров
     @POST("api/chat-ai/process-message")
     Call<okhttp3.ResponseBody> processAiMessage(
             @Query("chatId") int chatId,

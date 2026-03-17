@@ -1,15 +1,57 @@
+# === IDEA / Android Studio ===
+.idea/
 *.iml
-.gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-.DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
+*.ipr
+*.iws
+.project
+.classpath
+.cproject
+*.hprof
+
+# === Сборка ===
+/build/
+*/build/
+app/build/
+*/app/build/
+gradle-app.setting
+!gradle-wrapper.jar
+
+# === Gradle ===
+.gradle/
+gradlew.bat
 local.properties
+
+# === Конфигурации с секретами ===
+*.properties
+!gradle-wrapper.properties
+!local.properties.example
+keystore.properties
+signing.properties
+*.keystore
+*.jks
+release-key.jks
+upload-keystore.jks
+
+# === Google Services ===
+google-services.json
+
+# === Логи ===
+*.log
+logs/
+captures/
+
+# === ОС ===
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# === NDK ===
+*.so
+
+# === ProGuard ===
+proguard/
+
+# === Тесты ===
+*/test-results/
+*/test-reports/
