@@ -12,8 +12,7 @@
         android:id="@+id/ivAuthLogo"
         android:layout_width="160dp"
         android:layout_height="160dp"
-        android:src="@android:drawable/ic_menu_gallery"
-        app:tint="@color/brand_green"
+        android:src="@drawable/logo"
         android:layout_marginTop="32dp"
         android:layout_marginBottom="32dp"/>
 
@@ -46,27 +45,6 @@
         android:paddingStart="20dp"
         android:background="@drawable/bg_input_rounded"
         android:layout_marginBottom="24dp"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Выберите цвет для чата:"
-        android:textSize="14sp"
-        android:textColor="@color/text_hint"
-        android:layout_marginBottom="8dp"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_marginBottom="32dp">
-
-        <View android:id="@+id/colorRed" android:layout_width="45dp" android:layout_height="45dp" android:background="#EF5350" android:layout_margin="8dp"/>
-        <View android:id="@+id/colorBlue" android:layout_width="45dp" android:layout_height="45dp" android:background="#42A5F5" android:layout_margin="8dp"/>
-        <View android:id="@+id/colorPurple" android:layout_width="45dp" android:layout_height="45dp" android:background="#AB47BC" android:layout_margin="8dp"/>
-        <View android:id="@+id/colorOrange" android:layout_width="45dp" android:layout_height="45dp" android:background="#FFA726" android:layout_margin="8dp"/>
-    </LinearLayout>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnVerifyEmail"

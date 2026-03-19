@@ -38,32 +38,6 @@ public class AuthActivity extends AppCompatActivity {
         etUsername = findViewById(R.id.etUsername);
         btnVerifyEmail = findViewById(R.id.btnVerifyEmail);
 
-        View colorRed = findViewById(R.id.colorRed);
-        View colorBlue = findViewById(R.id.colorBlue);
-        View colorPurple = findViewById(R.id.colorPurple);
-        View colorOrange = findViewById(R.id.colorOrange);
-
-        View.OnClickListener colorClickListener = v -> {
-            colorRed.setAlpha(0.3f);
-            colorBlue.setAlpha(0.3f);
-            colorPurple.setAlpha(0.3f);
-            colorOrange.setAlpha(0.3f);
-
-            v.setAlpha(1.0f);
-
-            if (v.getId() == R.id.colorRed) selectedColor = "#EF5350";
-            else if (v.getId() == R.id.colorBlue) selectedColor = "#42A5F5";
-            else if (v.getId() == R.id.colorPurple) selectedColor = "#AB47BC";
-            else if (v.getId() == R.id.colorOrange) selectedColor = "#FFA726";
-        };
-
-        colorRed.setOnClickListener(colorClickListener);
-        colorBlue.setOnClickListener(colorClickListener);
-        colorPurple.setOnClickListener(colorClickListener);
-        colorOrange.setOnClickListener(colorClickListener);
-
-        colorBlue.performClick();
-
         btnVerifyEmail.setOnClickListener(v -> {
             String email = etEmail.getText().toString().trim();
             String username = etUsername.getText().toString().trim();

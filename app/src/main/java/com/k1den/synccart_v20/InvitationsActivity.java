@@ -126,7 +126,7 @@ public class InvitationsActivity extends AppCompatActivity {
                 super(itemView);
                 tvText = itemView.findViewById(R.id.tvInviteText);
                 btnAccept = itemView.findViewById(R.id.btnAccept);
-                btnDecline = itemView.findViewById(R.id.btnDecline);
+                btnDecline = itemView.findViewById(R.id.btnDeleteProduct);
             }
         }
     }

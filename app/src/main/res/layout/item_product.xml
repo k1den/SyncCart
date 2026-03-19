@@ -30,14 +30,17 @@
 
         <CheckBox
             android:id="@+id/cbIsBought"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:button="@drawable/circle_checkbox_selector"
+            app:buttonCompat="@null"
+            app:buttonTint="@null" />
 
         <TextView
             android:id="@+id/tvProductName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="12dp"
             android:layout_weight="1"
             android:text="Молоко"
             android:textColor="#333333"
@@ -57,7 +60,8 @@
             android:layout_height="40dp"
             android:layout_marginStart="8dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@android:drawable/ic_menu_delete"
-            app:tint="#FF3B30" />
+            android:src="@drawable/ic_remove_from_cart"
+            app:tint="#FF3B30"
+            android:contentDescription="Удалить товар" />
     </LinearLayout>
 </LinearLayout>

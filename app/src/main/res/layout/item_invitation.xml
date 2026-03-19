@@ -24,15 +24,17 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:src="@android:drawable/ic_input_add"
-        app:tint="@color/brand_green" />
+        android:src="@drawable/ic_check"
+        app:tint="@color/brand_green"
+        android:contentDescription="Принять приглашение" />
 
     <ImageButton
-        android:id="@+id/btnDecline"
+        android:id="@+id/btnDeleteProduct"
         android:layout_width="40dp"
         android:layout_height="40dp"
+        android:layout_marginStart="8dp"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:src="@android:drawable/ic_menu_close_clear_cancel"
+        android:src="@drawable/ic_remove_from_cart"
         app:tint="#FF3B30"
-        android:layout_marginStart="8dp"/>
+        android:contentDescription="Удалить товар" />
 </LinearLayout>
