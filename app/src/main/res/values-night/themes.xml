@@ -1,7 +1,17 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.SyncCart_V20" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+
+        <!-- Основной цвет -->
+        <item name="colorPrimary">@color/brand_green</item>
+        <item name="colorOnPrimary">@color/white</item>
+
+        <!-- Убирает фиолетовые эффекты -->
+        <item name="colorSecondary">@color/brand_green</item>
+        <item name="colorTertiary">@color/brand_green</item>
+
+        <!-- Цвет ripple / выделений -->
+        <item name="colorControlHighlight">@color/brand_green</item>
+
     </style>
 </resources>

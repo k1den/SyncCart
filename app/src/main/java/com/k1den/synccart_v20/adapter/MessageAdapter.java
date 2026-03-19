@@ -74,15 +74,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             String name = msg.getSenderName() != null ? msg.getSenderName() : "Пользователь";
             holder.tvAuthor.setText(name);
 
-            if (msg.getSenderColor() != null && !msg.getSenderColor().isEmpty()) {
-                try {
-                    holder.tvAuthor.setTextColor(Color.parseColor(msg.getSenderColor()));
-                } catch (Exception e) {
-                    holder.tvAuthor.setTextColor(Color.GRAY);
-                }
-            } else {
-                holder.tvAuthor.setTextColor(Color.GRAY);
-            }
+            int userColor = generateUserColor(msg.getUserId());
+            holder.tvAuthor.setTextColor(userColor);
         }
 
         holder.itemView.setOnClickListener(v -> {
@@ -109,5 +102,10 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             tvContent = itemView.findViewById(R.id.tvMessageContent);
             tvAuthor = itemView.findViewById(R.id.tvAuthorName);
         }
+    }
+
+    private static int generateUserColor(int userId) {
+        int hue = (userId * 1103515245 + 12345) % 360;
+        return Color.HSVToColor(new float[]{hue, 0.7f, 0.85f});
     }
 }
