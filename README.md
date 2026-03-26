@@ -69,10 +69,21 @@ spring.jpa.hibernate.ddl-auto=update
 
 Выполните Build -> Clean Project, затем Sync Project with Gradle Files.
 
-Важно: Если используете эмулятор, в класс RetrofitClient укажите адрес http://10.0.2.2:8080. 
-Если же нет, то http://ip_вашего_ноутбука:8080.
+Важно: Если используете эмулятор, в класс RetrofitClient укажите адрес ```http://10.0.2.2:8080```. 
+Если же нет, то ```http://ip_вашего_ноутбука:8080```.
 
 Нажмите Run и выберите ваше устройство/эмулятор.
+
+### 5. Работа нейросети
+Создайте файл с именем Modelfile, но без расширения
+
+Внутри него напишите FROM ```./Meta-Llama-3-8B-Instruct.Q4_K_M.gguf```
+
+С указанного сайта ```https://huggingface.co/QuantFactory/Meta-Llama-3-8B-Instruct-GGUF?show_file_info=Meta-Llama-3-8B-Instruct.Q4_K_M.gguf``` скачать модельку.
+
+Ввести в консоли ```irm https://ollama.com/install.ps1 | iex``` и дождаться завершения, затем ввести ```ollama create my-llama3 -f Modelfile```
+
+Все действия производить в одной директории. Файлы также хранить в одной директории.
 
 ## Видео по использованию
 
